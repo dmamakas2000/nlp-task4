@@ -395,8 +395,12 @@ def main():
             input_id_text = []
             tf_idf_score_text = []
 
-            for word_id, count in counts.most_common(n=data_args.max_seq_length - 2):
-                tf_idf = min(int(count * tfidf_vectorizer.idf_[word_id]), max_tfidf)
+            sorted_idf_list = [(word_id, count, tfidf_vectorizer.idf_[word_id]) for word_id, count in
+                               counts.most_common(n=data_args.max_seq_length - 2)]
+            sorted_idf_list = sorted(sorted_idf_list, key=lambda tup: tup[2])
+
+            for word_id, count, idf in sorted_idf_list[:data_args.max_seq_length - 2]:
+                tf_idf = min(int(count * idf), max_tfidf)
                 tf_idf_score_text.append(tf_idf)
                 input_id_text.append(word_id)
 
