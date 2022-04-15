@@ -328,7 +328,7 @@ def main():
         batch["tf_idfs"] = tf_idf_total
         batch["attention_mask"] = attention_masks
         batch["token_type_ids"] = token_type_ids
-        batch["label"] = [label_list.index(labels) for labels in examples["label"]]
+        batch["labels"] = [[1 if label in labels else 0 for label in label_list] for labels in examples["labels"]]
 
         return batch
 
